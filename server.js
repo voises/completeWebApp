@@ -14,10 +14,7 @@ function start(route, handle) {
         let pathname = url.parse(request.url).pathname;
         //this distinguises requests based on the requested path
         console.log('Request for ' +pathname+ ' recieved.');
-        route(handle, pathname);
-      response.writeHead(200, { "Content-Type": "text/html" });
-      response.write("Hello World!!");
-      response.end();
+        route(handle, pathname, response);
     })
     .listen(8888);
     console.log('Server started')
