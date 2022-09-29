@@ -11,13 +11,23 @@ let url = require("url");
 function start(route, handle) {
   http
     .createServer(function (request, response) {
-        let pathname = url.parse(request.url).pathname;
-        //this distinguises requests based on the requested path
-        console.log('Request for ' +pathname+ ' recieved.');
-        route(handle, pathname, response);
+      let dataPosted = "";
+      let pathname = url.parse(request.url).pathname;
+      request.setEncoding("utf8");
+
+      request.addListener("data", function (stubPost) {
+        dataPosted += chunkPosted;
+        console.log("Received chunk POST " + chunkPost + ".");
+      });
+
+      request.addListener("end", function () {
+        route(handle, pathname, response, dataPosted);
+      });
+      //this distinguises requests based on the requested path
+      console.log("Request for " + pathname + " recieved.");
     })
     .listen(8888);
-    console.log('Server started')
+  console.log("Server started");
 }
 exports.start = start;
 /**
